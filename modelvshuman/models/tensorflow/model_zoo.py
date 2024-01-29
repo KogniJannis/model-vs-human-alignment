@@ -10,7 +10,7 @@ efficientnet
 '''
 
 import tensorflow as tf
-from .harmonized_model_urls import harmonized_urls
+from .harmonized_model_url import harmonized_urls
 import efficientnet.keras
 
 
