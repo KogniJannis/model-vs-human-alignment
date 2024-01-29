@@ -54,7 +54,7 @@ def convnext_harmonized(model_name, *args):
 @register_model("tensorflow")
 def efficient_harmonized(model_name, *args):
     weights_path = tf.keras.utils.get_file("efficientnetB0_harmonized",
-                                           harmonized_urls('efficient_harmonized'),
+                                           harmonized_urls.get('efficient_harmonized'),
                                            cache_subdir="models")
     model = tf.keras.models.load_model(weights_path)
     return TensorflowModel(model, model_name, *args)
@@ -71,14 +71,14 @@ def levit_harmonized(model_name, *args):
 '''
 @register_model("tensorflow")
 def resnet_harmonized(model_name, *args):
-    weights_path = tf.keras.utils.get_file("resnet50v2_harmonized", harmonized_urls('resnet_harmonized'),
+    weights_path = tf.keras.utils.get_file("resnet50v2_harmonized", harmonized_urls.get('resnet_harmonized'),
                                             cache_subdir="models")
     model = tf.keras.models.load_model(weights_path)
     return TensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
 def vgg_harmonized(model_name, *args):
-    weights_path = tf.keras.utils.get_file("vgg16_harmonized", harmonized_urls('vgg_harmonized'),
+    weights_path = tf.keras.utils.get_file("vgg16_harmonized", harmonized_urls.get('vgg_harmonized'),
                                             cache_subdir="models")
     model = tf.keras.models.load_model(weights_path)
     return TensorflowModel(model, model_name, *args)
