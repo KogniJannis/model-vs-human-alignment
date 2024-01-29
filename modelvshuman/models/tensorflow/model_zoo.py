@@ -6,7 +6,7 @@ from .build_model import build_model_from_hub
 '''
 Imports for harmonized architectures
 the following must be added to requirements:
-efficientnet, vt_keras, keras_cv_attention_models
+efficientnet, vit_keras, keras_cv_attention_models
 '''
 
 import tensorflow as tf
