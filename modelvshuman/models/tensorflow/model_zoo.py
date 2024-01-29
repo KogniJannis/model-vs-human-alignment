@@ -41,11 +41,6 @@ def inception_v1(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
-@register_model("tensorflow")
-def inception_v1(model_name, *args):
-    model = build_model_from_hub(model_name)
-    return TensorflowModel(model, model_name, *args)
-
 '''
 HARMONIZED MODELS
 '''
