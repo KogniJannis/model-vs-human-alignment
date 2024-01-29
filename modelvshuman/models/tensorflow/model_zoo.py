@@ -8,9 +8,9 @@ Imports for harmonized architectures
 the following must be added to requirements:
 efficientnet, vit_keras, keras_cv_attention_models
 '''
-
 import tensorflow as tf
 from .harmonized_model_url import harmonized_urls
+from ..wrappers.tensorflow import HarmonizedTensorflowModel
 import efficientnet.keras
 from vit_keras import vit
 from keras_cv_attention_models.levit import LeViT128
@@ -56,14 +56,14 @@ def convnext_harmonized(model_name, *args):
                                             cache_subdir="models")
     model = ConvNeXtTiny(classifier_activation=None, pretrained=None)
     model.load_weights(weights_path)
-    return TensorflowModel(model, model_name, *args)
+    return HarmonizedTensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
 def efficient_harmonized(model_name, *args):
     weights_path = tf.keras.utils.get_file("efficientnetB0_harmonized", harmonized_urls.get('efficient_harmonized'),
                                            cache_subdir="models")
     model = tf.keras.models.load_model(weights_path)
-    return TensorflowModel(model, model_name, *args)
+    return HarmonizedTensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
 def levit_harmonized(model_name, *args):
@@ -72,7 +72,7 @@ def levit_harmonized(model_name, *args):
 
     model = LeViT128(classifier_activation = None, use_distillation = False)
     model.load_weights(weights_path)
-    return TensorflowModel(model, model_name, *args)
+    return HarmonizedTensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
 def maxvit_harmonized(model_name, *args):
@@ -81,21 +81,21 @@ def maxvit_harmonized(model_name, *args):
 
     model = MaxViT_Tiny(classifier_activation = None, pretrained = None)
     model.load_weights(weights_path)
-    return TensorflowModel(model, model_name, *args)
+    return HarmonizedTensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
 def resnet_harmonized(model_name, *args):
     weights_path = tf.keras.utils.get_file("resnet50v2_harmonized", harmonized_urls.get('resnet_harmonized'),
                                             cache_subdir="models")
     model = tf.keras.models.load_model(weights_path)
-    return TensorflowModel(model, model_name, *args)
+    return HarmonizedTensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
 def vgg_harmonized(model_name, *args):
     weights_path = tf.keras.utils.get_file("vgg16_harmonized", harmonized_urls.get('vgg_harmonized'),
                                             cache_subdir="models")
     model = tf.keras.models.load_model(weights_path)
-    return TensorflowModel(model, model_name, *args)
+    return HarmonizedTensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
 def vit_harmonized(model_name, *args):
@@ -109,7 +109,7 @@ def vit_harmonized(model_name, *args):
         pretrained_top=False
     )
     model.load_weights(weights_path)
-    return TensorflowModel(model, model_name, *args)
+    return HarmonizedTensorflowModel(model, model_name, *args)
 
 
 
