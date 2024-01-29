@@ -76,7 +76,7 @@ def levit_harmonized(model_name, *args):
 
 @register_model("tensorflow")
 def maxvit_harmonized(model_name, *args):
-     weights_path = tf.keras.utils.get_file("maxvit_tiny_harmonized", harmonized_urls.get('maxvit_harmonized'),
+    weights_path = tf.keras.utils.get_file("maxvit_tiny_harmonized", harmonized_urls.get('maxvit_harmonized'),
                                             cache_subdir="models")
 
     model = MaxViT_Tiny(classifier_activation = None, pretrained = None)
