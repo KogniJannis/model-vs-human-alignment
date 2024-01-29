@@ -9,7 +9,7 @@ the following must be added to requirements:
 efficientnet
 '''
 
-import tesnorflow as tf
+import tensorflow as tf
 from .harmonized_model_urls import harmonized_urls
 import efficientnet.keras
 
