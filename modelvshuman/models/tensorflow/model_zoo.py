@@ -129,3 +129,7 @@ def tf_convnext_tiny(model_name, *args):
     model = tf.keras.applications.convnext.ConvNeXtTiny()
     return TensorflowModel(model, model_name, *args)
 
+@register_model("tensorflow")
+def tf_resnet50_v2(model_name, *args):
+    model = tf.keras.applications.resnet_v2.ResNet50V2
+    return TensorflowModel(model, model_name, *args)
