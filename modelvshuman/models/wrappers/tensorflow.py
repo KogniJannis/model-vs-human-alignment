@@ -76,6 +76,9 @@ class HarmonizedTensorflowModel(TensorflowModel):
         device = get_device()
         with device:
             print(images.shape)
-            images = [self.preprocess_input(image) for image in images]
+            #images = self.preprocess_input(images)
+            images = images / 255.0
+            images = images - np.array([0.485, 0.456, 0.406]) #IMAGENET_MEAN
+            images = images /  np.array([0.229, 0.224, 0.225]) #IMAGENET_STD 
             predictions = self.model(images)
             return predictions.numpy()
