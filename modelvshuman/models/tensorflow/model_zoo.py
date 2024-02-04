@@ -17,6 +17,11 @@ from keras_cv_attention_models.levit import LeViT128
 from keras_cv_attention_models.maxvit import  MaxViT_Tiny
 from keras_cv_attention_models.convnext import ConvNeXtTiny
 
+'''
+Imports for the keras.applications zoo
+'''
+#None yet
+
 
 @register_model("tensorflow")
 def efficientnet_b0(model_name, *args):
@@ -106,6 +111,21 @@ def vit_harmonized(model_name, *args):
     model.load_weights(weights_path)
     return HarmonizedTensorflowModel(model, model_name, *args)
 
+'''
+Keras.applications zoo
+'''
+@register_model("tensorflow")
+def tf_efficientnet_b0(model_name, *args):
+    model = tf.keras.applications.efficientnet.EfficientNetB0()
+    return TensorflowModel(model, model_name, *args)
 
+@register_model("tensorflow")
+def tf_vgg16(model_name, *args):
+    model = tf.keras.applications.vgg16.VGG16()
+    return TensorflowModel(model, model_name, *args)
 
+@register_model("tensorflow")
+def tf_convnext_tiny(model_name, *args):
+    model = tf.keras.applications.convnext.ConvNeXtTiny()
+    return TensorflowModel(model, model_name, *args)
 
