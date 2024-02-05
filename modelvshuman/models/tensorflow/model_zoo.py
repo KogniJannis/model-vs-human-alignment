@@ -116,32 +116,38 @@ Keras.applications zoo
 @register_model("tensorflow")
 def tf_efficientnet_b0(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB0()
-    return TensorflowModel(model, model_name, *args)
+    effnet_resolution = 224
+    return TensorflowEfficientnetModel(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_efficientnet_b1(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB1()
-    return TensorflowModel(model, model_name, *args)
+    effnet_resolution = 240
+    return TensorflowEfficientnetModel(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_efficientnet_b2(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB2()
-    return TensorflowModel(model, model_name, *args)
+    effnet_resolution = 260
+    return TensorflowEfficientnetModel(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_efficientnet_b3(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB3()
-    return TensorflowModel(model, model_name, *args)
+    effnet_resolution = 300
+    return TensorflowEfficientnetModel(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_efficientnet_b5(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB5()
-    return TensorflowModel(model, model_name, *args)
+    effnet_resolution = 456
+    return TensorflowEfficientnetModel(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_efficientnet_b7(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB7()
-    return TensorflowModel(model, model_name, *args)
+    effnet_resolution = 600
+    return TensorflowEfficientnetModel(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_vgg16(model_name, *args):
