@@ -20,7 +20,7 @@ from keras_cv_attention_models.convnext import ConvNeXtTiny
 '''
 Imports for the keras.applications zoo
 '''
-#None yet
+from ..wrappers.tensorflow import TensorflowEfficientnetModel
 
 
 @register_model("tensorflow")
