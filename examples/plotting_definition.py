@@ -42,6 +42,25 @@ def plotting_definition_template(df):
     return decision_makers
 
 
+def plot_available_models(models):
+    """ 
+    automatically plots the available models for quick iteration
+    colors and markers are set to a single default 
+    (maybe find some dict-based solution in the future) 
+    """
+    def decision_maker_fun(df, models=models):
+        decision_makers = []
+        for model in models:
+            decision_makers.append(DecisionMaker(name_pattern=model,
+                                   color=rgb(65, 90, 140), marker="o", df=df,
+                                   plotting_name=model))
+        decision_makers.append(DecisionMaker(name_pattern="subject-*",
+                               color=rgb(165, 30, 55), marker="D", df=df,
+                               plotting_name="humans"))
+        return decision_makers
+    return decision_maker_fun
+
+
 def get_comparison_decision_makers(df, include_humans=True,
                                    humans_last=True):
     """Decision makers used in our paper."""
