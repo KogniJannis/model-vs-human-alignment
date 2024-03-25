@@ -84,10 +84,10 @@ class HarmonizedTensorflowModel(TensorflowModel):
         preprocessed_images
             Images preprocessed for the harmonized models.
         """
-        images = images / 255.0
+        #images = images / 255.0
     
-        images = images - np.array([0.485, 0.456, 0.406]) #IMAGENET_MEAN
-        images = images /  np.array([0.229, 0.224, 0.225]) #IMAGENET_STD 
+        #images = images - np.array([0.485, 0.456, 0.406]) #IMAGENET_MEAN
+        #images = images /  np.array([0.229, 0.224, 0.225]) #IMAGENET_STD 
     
         return images
         
