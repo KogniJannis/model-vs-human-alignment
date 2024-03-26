@@ -54,7 +54,7 @@ def transfer_data(src_folder, target_folder):
             shutil.copy2(src_file, target_file)
 
 
-def run_evaluation(models, datasets=supported_datasets, params=DEFAULT_PARAMS):
+def run_evaluation(models, datasets=c.DEFAULT_DATASETRS, params=DEFAULT_PARAMS):
     Evaluate()(models, datasets, **params)
 
 
@@ -66,7 +66,7 @@ def run_plotting(models, plot_types=c.DEFAULT_PLOT_TYPES):
 
 
 def analyze_models(models,
-                   datasets=supported_datasets,
+                   datasets=c.DEFAULT_DATASETS,
                    plot_types=c.DEFAULT_PLOT_TYPES,
                    eval_params=DEFAULT_PARAMS,
                    drive_path=DEFAULT_DRIVE_PATH,
@@ -84,6 +84,3 @@ def analyze_models(models,
     #transfer data back
     transfer_data(data_path + 'raw_data', results_path + 'raw_data')
     transfer_data(data_path + 'figures', results_path + 'figures')
-
-
-    #TODO: move results to Drive
