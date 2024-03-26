@@ -54,7 +54,7 @@ def transfer_data(src_folder, target_folder):
             shutil.copy2(src_file, target_file)
 
 
-def run_evaluation(models, datasets=c.DEFAULT_DATASETRS, params=DEFAULT_PARAMS):
+def run_evaluation(models, datasets=c.DEFAULT_DATASETS, params=DEFAULT_PARAMS):
     Evaluate()(models, datasets, **params)
 
 
