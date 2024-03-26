@@ -58,8 +58,7 @@ def run_evaluation(models, datasets=c.DEFAULT_DATASETS, params=DEFAULT_PARAMS):
     Evaluate()(models, datasets, **params)
 
 
-def run_plotting(models, plot_types=c.DEFAULT_PLOT_TYPES):
-    plotting_def = plot_available_models(models)
+def run_plotting(models, plot_types=c.DEFAULT_PLOT_TYPES, plotting_def = plot_available_models(models)):
     figure_dirname = "example-figures/"
     Plot(plot_types = plot_types, plotting_definition = plotting_def,
          figure_directory_name = figure_dirname)
@@ -71,7 +70,8 @@ def analyze_models(models,
                    eval_params=DEFAULT_PARAMS,
                    drive_path=DEFAULT_DRIVE_PATH,
                    data_path=DEFAULT_DATA_PATH,
-                   results_path=DEFAULT_RESULTS_PATH):
+                   results_path=DEFAULT_RESULTS_PATH,
+                   plotting_def = plot_available_models(models)):
     # 1. evaluate models on out-of-distribution datasets
     run_evaluation(models, datasets, eval_params)
 
@@ -79,7 +79,7 @@ def analyze_models(models,
     transfer_data(drive_path + 'raw_data', data_path + 'raw_data')
 
     # 2. plot the evaluation results
-    run_plotting(models, plot_types)
+    run_plotting(models, plot_types, plotting_def)
 
     #transfer data back
     transfer_data(data_path + 'raw_data', results_path + 'raw_data')
