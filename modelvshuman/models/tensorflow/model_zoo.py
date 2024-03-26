@@ -22,6 +22,11 @@ Imports for the keras.applications zoo
 '''
 from ..wrappers.tensorflow import TensorflowEfficientnetModel
 
+'''
+Imports for Vision Transformers that need specific preprocessing 
+'''
+from ..wrappers.tensorflow import VitModel
+
 
 @register_model("tensorflow")
 def efficientnet_b0(model_name, *args):
@@ -189,3 +194,27 @@ def tf_levit128(model_name, *args):
 def tf_maxvit_tiny(model_name, *args):
     model = MaxViT_Tiny(classifier_activation = "softmax") #TODO right configuration?
     return TensorflowModel(model, model_name, *args)
+
+'''
+Tensorflow ViT models with dedicated wrapper to get the correct preprocessing
+'''
+@register_model("tensorflow")
+def tf_vit_b16_wrapped(model_name, *args):
+    model = vit.vit_b16(
+        image_size=224,
+        activation='linear',
+        pretrained=True,
+        include_top=True,
+        pretrained_top=True
+    )
+    return VitModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tf_levit128_wrapped(model_name, *args):
+    model = LeViT128(pretrained="imagenet", classifier_activation = "softmax", use_distillation = False)
+    return VitModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tf_maxvit_tiny_wrapped(model_name, *args):
+    model = MaxViT_Tiny(classifier_activation = "softmax")
+    return VitModel(model, model_name, *args)
