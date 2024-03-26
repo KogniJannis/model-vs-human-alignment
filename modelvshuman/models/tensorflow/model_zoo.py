@@ -187,5 +187,5 @@ def tf_levit128(model_name, *args):
 
 @register_model("tensorflow")
 def tf_maxvit_tiny(model_name, *args):
-    model = MaxViT_Tiny(classifier_activation = "softmax", pretrained = True) #TODO right configuration?
+    model = MaxViT_Tiny(classifier_activation = "softmax") #TODO right configuration?
     return TensorflowModel(model, model_name, *args)
