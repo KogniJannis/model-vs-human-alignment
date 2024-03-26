@@ -58,7 +58,10 @@ def run_evaluation(models, datasets=c.DEFAULT_DATASETS, params=DEFAULT_PARAMS):
     Evaluate()(models, datasets, **params)
 
 
-def run_plotting(models, plot_types=c.DEFAULT_PLOT_TYPES, plotting_def = plot_available_models(models)):
+def run_plotting(models, plot_types=c.DEFAULT_PLOT_TYPES, plotting_def=None):
+    if plotting_def is None:
+        plot_available_models(models)
+    
     figure_dirname = "example-figures/"
     Plot(plot_types = plot_types, plotting_definition = plotting_def,
          figure_directory_name = figure_dirname)
@@ -71,7 +74,8 @@ def analyze_models(models,
                    drive_path=DEFAULT_DRIVE_PATH,
                    data_path=DEFAULT_DATA_PATH,
                    results_path=DEFAULT_RESULTS_PATH,
-                   plotting_def = plot_available_models(models)):
+                   plotting_def = None):
+    
     # 1. evaluate models on out-of-distribution datasets
     run_evaluation(models, datasets, eval_params)
 
