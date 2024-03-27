@@ -29,7 +29,7 @@ from ..wrappers.tensorflow import VitModel
 
 
 @register_model("tensorflow")
-def efficientnet_b0(model_name, *args):
+def efficientnet_b0_hubversion(model_name, *args): #NOTE added hubversion because name is identical with pytorch model
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
@@ -123,6 +123,13 @@ def tf_efficientnet_b0(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB0()
     effnet_resolution = 224
     return TensorflowEfficientnetModel(model, model_name, effnet_resolution, *args)
+
+#NOTE experimental
+@register_model("tensorflow")
+def tf_efficientnet_b0_noresize(model_name, *args):
+    model = tf.keras.applications.efficientnet.EfficientNetB0()
+    effnet_resolution = 224
+    return TensorflowModel(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_efficientnet_b1(model_name, *args):
