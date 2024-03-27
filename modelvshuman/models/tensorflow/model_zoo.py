@@ -26,7 +26,7 @@ from ..wrappers.tensorflow import TensorflowEfficientnetModel
 Imports for Vision Transformers that need specific preprocessing 
 '''
 from ..wrappers.tensorflow import VitModel
-
+from ..wrappers.tensorflow import EffNetUndoPreprocess, EffNetDoPreprocess #debug
 
 @register_model("tensorflow")
 def efficientnet_b0_hubversion(model_name, *args): #NOTE added hubversion because name is identical with pytorch model
@@ -130,6 +130,20 @@ def tf_efficientnet_b0_noresize(model_name, *args):
     model = tf.keras.applications.efficientnet.EfficientNetB0()
     effnet_resolution = 224
     return TensorflowModel(model, model_name, effnet_resolution, *args)
+
+#NOTE experimental
+@register_model("tensorflow")
+def tf_efficientnet_b0_undo_preprocess(model_name, *args):
+    model = tf.keras.applications.efficientnet.EfficientNetB0()
+    effnet_resolution = 224
+    return EffNetUndoPreprocess(model, model_name, effnet_resolution, *args)
+
+#NOTE experimental
+@register_model("tensorflow")
+def tf_efficientnet_b0_do_preprocess(model_name, *args):
+    model = tf.keras.applications.efficientnet.EfficientNetB0()
+    effnet_resolution = 224
+    return EffNetDoPreprocess(model, model_name, effnet_resolution, *args)
 
 @register_model("tensorflow")
 def tf_efficientnet_b1(model_name, *args):

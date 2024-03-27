@@ -138,3 +138,87 @@ class VitModel(AbstractModel):
             images = self.preprocess_input(images)                  
             predictions = self.model(images)
             return predictions.numpy()
+        
+
+
+class EffNetUndoPreprocess(AbstractModel):
+
+    def __init__(self, model, model_name, *args):
+        self.model = model
+        self.model_name = model_name
+        self.args = args
+
+    def preprocess_input(images): #disabled 
+        """
+        Preprocesses images for the harmonized models.
+        The images are expected to be in RGB format with values in the range [0, 255].
+    
+        Parameters
+        ----------
+        images
+            Tensor or numpy array to be preprocessed.
+            Expected shape (N, W, H, C).
+    
+        Returns
+        -------
+        preprocessed_images
+            Images preprocessed for the harmonized models.
+        """
+        images = images *  np.array([0.229, 0.224, 0.225]) #IMAGENET_STD 
+        images = images +  np.array([0.485, 0.456, 0.406]) #IMAGENET_MEAN
+        images = images * 255.0
+        
+
+        return images
+       
+    
+    def softmax(self, logits):
+        assert type(logits) is np.ndarray
+        return tf.nn.softmax(logits).numpy()
+
+    def forward_batch(self, images):
+        device = get_device()
+        with device:
+            images = preprocess_input(images)
+            predictions = self.model(images)
+            return predictions.numpy()
+
+class EffNetDoPreprocess(AbstractModel):
+
+    def __init__(self, model, model_name, *args):
+        self.model = model
+        self.model_name = model_name
+        self.args = args
+
+    def preprocess_input(images): #disabled 
+        """
+        Preprocesses images for the harmonized models.
+        The images are expected to be in RGB format with values in the range [0, 255].
+    
+        Parameters
+        ----------
+        images
+            Tensor or numpy array to be preprocessed.
+            Expected shape (N, W, H, C).
+    
+        Returns
+        -------
+        preprocessed_images
+            Images preprocessed for the harmonized models.
+        """
+        images = images / 255.0
+        images = images - np.array([0.485, 0.456, 0.406]) #IMAGENET_MEAN
+        images = images /  np.array([0.229, 0.224, 0.225]) #IMAGENET_STD 
+        return images
+       
+
+    def softmax(self, logits):
+        assert type(logits) is np.ndarray
+        return tf.nn.softmax(logits).numpy()
+
+    def forward_batch(self, images):
+        device = get_device()
+        with device:
+            images = preprocess_input(images)
+            predictions = self.model(images)
+            return predictions.numpy()
