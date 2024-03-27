@@ -179,7 +179,7 @@ class EffNetUndoPreprocess(AbstractModel):
     def forward_batch(self, images):
         device = get_device()
         with device:
-            images = preprocess_input(images)
+            images = self.preprocess_input(images)
             predictions = self.model(images)
             return predictions.numpy()
 
@@ -219,6 +219,6 @@ class EffNetDoPreprocess(AbstractModel):
     def forward_batch(self, images):
         device = get_device()
         with device:
-            images = preprocess_input(images)
+            images = self.preprocess_input(images)
             predictions = self.model(images)
             return predictions.numpy()
