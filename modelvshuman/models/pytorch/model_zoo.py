@@ -10,6 +10,7 @@ Import for Vonenet Models
 Right now the vonenet repo must be installed independently by cloning + pip install .
 '''
 import vonenet
+from ..wrappers.pytorch import VonenetModel
 
 _PYTORCH_IMAGE_MODELS = "rwightman/pytorch-image-models"
 
