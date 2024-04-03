@@ -5,6 +5,12 @@ from ..registry import register_model
 from ..wrappers.pytorch import PytorchModel, PyContrastPytorchModel, ClipPytorchModel, \
     ViTPytorchModel, EfficientNetPytorchModel, SwagPytorchModel
 
+'''
+Import for Vonenet Models
+Right now the vonenet repo must be installed independently by cloning + pip install .
+'''
+import vonenet
+
 _PYTORCH_IMAGE_MODELS = "rwightman/pytorch-image-models"
 
 _EFFICIENTNET_MODELS = "rwightman/gen-efficientnet-pytorch"
@@ -614,3 +620,40 @@ def swag_vit_l16_in1k(model_name, *args):
 def swag_vit_h14_in1k(model_name, *args):
     model = torch.hub.load("facebookresearch/swag", model="vit_h14_in1k")
     return SwagPytorchModel(model, model_name, input_size=518, *args)
+
+'''
+VoneNet Models from Jannis fork of the dicarlolab repo https://github.com/KogniJannis/vonenet
+'''
+@register_model("pytorch")
+def vonenet_alexnet_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, input_size=518, *args)
+@register_model("pytorch")
+def vonenet_resnet50_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, input_size=518, *args)
+@register_model("pytorch")
+def vonenet_resnet50_at_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, input_size=518, *args)
+@register_model("pytorch")
+def vonenet_cornets_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, input_size=518, *args)
+
+@register_model("pytorch")
+def vonenet_alexnet_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, input_size=518, *args)
+@register_model("pytorch")
+def vonenet_resnet50_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, input_size=518, *args)
+@register_model("pytorch")
+def vonenet_resnet50_at_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, input_size=518, *args)
+@register_model("pytorch")
+def vonenet_cornets_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, input_size=518, *args)
