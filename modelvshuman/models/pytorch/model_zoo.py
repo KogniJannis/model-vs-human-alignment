@@ -628,33 +628,33 @@ VoneNet Models from Jannis fork of the dicarlolab repo https://github.com/KogniJ
 @register_model("pytorch")
 def vonenet_alexnet_cpu(model_name, *args):
     model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cpu')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    return VonenetModel(model, model_name, *args)
 @register_model("pytorch")
 def vonenet_resnet50_cpu(model_name, *args):
     model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cpu')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    return VonenetModel(model, model_name, *args)
 @register_model("pytorch")
 def vonenet_resnet50_at_cpu(model_name, *args):
     model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cpu')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    return VonenetModel(model, model_name, *args)
 @register_model("pytorch")
 def vonenet_cornets_cpu(model_name, *args):
     model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cpu')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    return VonenetModel(model, model_name, *args)
 
 @register_model("pytorch")
 def vonenet_alexnet_gpu(model_name, *args):
     model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cuda')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    return VonenetModel(model, model_name, *args)
 @register_model("pytorch")
 def vonenet_resnet50_gpu(model_name, *args):
     model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cuda')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    return VonenetModel(model, model_name, *args)
 @register_model("pytorch")
 def vonenet_resnet50_at_gpu(model_name, *args):
     model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cuda')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    return VonenetModel(model, model_name, *args)
 @register_model("pytorch")
 def vonenet_cornets_gpu(model_name, *args):
     model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cuda')
-    return VonenetModel(model, model_name, input_size=518, *args)
+    rreturn VonenetModel(model, model_name, *args)
