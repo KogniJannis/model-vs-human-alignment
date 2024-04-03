@@ -107,34 +107,3 @@ class HarmonizedTensorflowModel(TensorflowModel):
             #images = self.preprocess_input(images) (see above)
             predictions = self.model(images)
             return predictions.numpy()
-
-'''
-Wrapper for Vision Transformers to apply their preprocessing
-see:
-https://github.com/faustomorales/vit-keras/tree/master/vit_keras
-https://github.com/leondgarse/keras_cv_attention_models/tree/main/keras_cv_attention_models/levit
-https://github.com/leondgarse/keras_cv_attention_models/tree/main/keras_cv_attention_models/maxvit
-'''
-
-class VitModel(AbstractModel):
-
-    def __init__(self, model, model_name, *args):
-        self.model = model
-        self.model_name = model_name
-        self.args = args
-
-    def preprocess_input(X): #probably identical to the normal preprocessing after all?
-        return tf.keras.applications.imagenet_utils.preprocess_input(
-            X, data_format=None, mode="tf"
-        )
-
-    def softmax(self, logits):
-        assert type(logits) is np.ndarray
-        return tf.nn.softmax(logits).numpy()
-
-    def forward_batch(self, images):
-        device = get_device()
-        with device:
-            images = self.preprocess_input(images)                  
-            predictions = self.model(images)
-            return predictions.numpy()
