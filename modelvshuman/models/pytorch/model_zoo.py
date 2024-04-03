@@ -657,4 +657,4 @@ def vonenet_resnet50_at_gpu(model_name, *args):
 @register_model("pytorch")
 def vonenet_cornets_gpu(model_name, *args):
     model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cuda')
-    rreturn VonenetModel(model, model_name, *args)
+    return VonenetModel(model, model_name, *args)
