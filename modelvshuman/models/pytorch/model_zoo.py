@@ -10,7 +10,8 @@ Import for Vonenet Models
 Right now the vonenet repo must be installed independently by cloning + pip install .
 '''
 import vonenet
-from ..wrappers.pytorch import VonenetModel
+import cornet
+from ..wrappers.pytorch import VonenetModel, CORnetModel
 
 _PYTORCH_IMAGE_MODELS = "rwightman/pytorch-image-models"
 
@@ -659,3 +660,25 @@ def vonenet_resnet50_at_gpu(model_name, *args):
 def vonenet_cornets_gpu(model_name, *args):
     model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cuda')
     return VonenetModel(model, model_name, *args)
+
+'''
+CORnet models from https://github.com/dicarlolab/CORnet/tree/master
+also do CorNet wrapper at first, merge with Python wrapper if no changes necessary
+do on cpu for now
+'''
+@register_model("pytorch")
+def cornet_s(model_name, *args):
+    model = cornet.cornet_z(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_r(model_name, *args):
+    model = cornet.cornet_r(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_rt(model_name, *args):
+    model = cornet.cornet_rt(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_s(model_name, *args):
+    model = cornet.cornet_s(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
