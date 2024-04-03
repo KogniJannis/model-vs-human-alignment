@@ -624,6 +624,7 @@ def swag_vit_h14_in1k(model_name, *args):
 
 '''
 VoneNet Models from Jannis fork of the dicarlolab repo https://github.com/KogniJannis/vonenet
+unclear if the cpu/gpu destinction is necessary if you can move the cpu model to gpu later anyway
 '''
 @register_model("pytorch")
 def vonenet_alexnet_cpu(model_name, *args):
