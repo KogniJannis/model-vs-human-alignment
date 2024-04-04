@@ -11,6 +11,8 @@ from .base import AbstractModel
 from ..pytorch.clip.imagenet_classes import imagenet_classes
 from ..pytorch.clip.imagenet_templates import imagenet_templates
 
+from ..pytorch.dino.dino_config import load_dino_config
+from ..pytorch.dino.dino_classifier import build_dino_classifier
 
 def device():
     return torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -207,3 +209,49 @@ class SwagPytorchModel(PytorchModel):
         images = torch.Tensor(np.stack(images, axis=0)).to(device())
         logits = self.model(images)
         return self.to_numpy(logits)    
+
+
+class DinoPytorchModel(AbstractModel):
+
+    def __init__(self, model, model_name, *args):
+        self.model = model
+        self.model_name = model_name
+        self.config = load_dino_config(model, model_name)
+        self.args = args
+        
+        self.classifier = build_dino_classifier(model_name, config)
+
+        self.model.to(device())
+
+    def to_numpy(self, x):
+        if x.is_cuda:
+            return x.detach().cpu().numpy()
+        else:
+            return x.numpy()
+
+    def softmax(self, logits):
+        assert type(logits) is np.ndarray
+
+        softmax_op = torch.nn.Softmax(dim=1)
+        softmax_output = softmax_op(torch.Tensor(logits))
+        return self.to_numpy(softmax_output)
+
+    def dino_forward(self, images):
+        if self.config['arch'] == "vit":
+            intermediate_output = self.model.get_intermediate_layers(images, n)
+            output = torch.cat([x[:, 0] for x in intermediate_output], dim=-1)
+            if self.config['avgpool']:
+                output = torch.cat((output.unsqueeze(-1), torch.mean(intermediate_output[-1][:, 1:], dim=1).unsqueeze(-1)), dim=-1)
+                output = output.reshape(output.shape[0], -1)
+        else:
+            output = model(images)
+        return output
+
+    def forward_batch(self, images):
+        assert type(images) is torch.Tensor
+
+        self.model.eval()
+        embeddings = self.dino_forward(images)
+        logits = self.classifier(embeddings)
+        return self.to_numpy(logits)
+
