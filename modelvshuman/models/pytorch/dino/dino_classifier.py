@@ -15,14 +15,19 @@ def build_dino_classifier(model_name, config):
     model_embed_dim = config['model_embed_dim']
     embed_dim = model_embed_dim * (n_last_blocks + int(avgpool_patchtokens))
     linear_classifier = LinearClassifier(embed_dim, num_labels=1000)
-    linear_classifier = nn.parallel.DistributedDataParallel(linear_classifier)
     
+    #the classifier state_dict has keys module.linear.weight because of DataParallel
+    #hotfix: rename keys
+    #linear_classifier = nn.parallel.DistributedDataParallel(linear_classifier)
+
+
     if config['version'] == 'v1':
         url = dinov1_linear_urls[model_name]
     else: 
         raise Exception("only DINO V1 implemented yet")
-    
+
     state_dict = torch.hub.load_state_dict_from_url(url)["state_dict"]    
+    state_dict = {key.replace("module.", ""): value for key, value in state_dict.items()}
     linear_classifier.load_state_dict(state_dict, strict=True)
 
     linear_classifier.eval()
