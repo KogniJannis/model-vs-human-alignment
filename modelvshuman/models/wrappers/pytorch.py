@@ -207,3 +207,105 @@ class SwagPytorchModel(PytorchModel):
         images = torch.Tensor(np.stack(images, axis=0)).to(device())
         logits = self.model(images)
         return self.to_numpy(logits)    
+
+class GlocalPytorchModel(AbstractModel):
+
+    def __init__(self, model, model_name, *args):
+        self.model = model
+        self.model_name = model_name
+        self.args = args
+        self.model.to(device())
+
+    def to_numpy(self, x):
+        if x.is_cuda:
+            return x.detach().cpu().numpy()
+        else:
+            return x.numpy()
+
+    def softmax(self, logits):
+        assert type(logits) is np.ndarray
+
+        softmax_op = torch.nn.Softmax(dim=1)
+        softmax_output = softmax_op(torch.Tensor(logits))
+        return self.to_numpy(softmax_output)
+
+    '''
+    adapted from thingsvision
+    '''
+    def load_transform_from_remote(self):
+        """Load gLocal (affine) transform from official gLocal GitHub repo."""
+        # Download the transform
+        response = requests.get(self.url)
+        # Check for successful download of transform
+        if response.status_code == requests.codes.ok:
+            # Write the content of transform to a temporary file
+            with open("temp.npz", "wb") as f:
+                f.write(response.content)
+            transform = np.load("temp.npz")
+            os.remove("temp.npz")
+        else:
+            raise FileNotFoundError(
+                f"\nError downloading transform: {response.status_code}\nModel: {self.model_name}, Module: {self.module_name}\n"
+            )
+        return transform
+
+    def apply_transform(self, features: Union[Array, Tensor]) -> Union[Array, Tensor]:
+        """Apply the gLocal transform to a model's representation space."""
+        features = (features - self.transform["mean"]) / self.transform["std"]
+        features = features @ self.transform["weights"]
+        if "bias" in self.transform:
+            features += self.transform["bias"]
+        return features
+
+    def forward_batch(self, images):
+        assert type(images) is torch.Tensor
+
+        self.model.eval()
+        logits = self.model(images)
+        return self.to_numpy(logits)
+
+
+class GlocalClipPytorchModel(PytorchModel):
+
+    def __init__(self, model, model_name, *args):
+        super(ClipPytorchModel, self).__init__(model, model_name, *args)
+        self.zeroshot_weights=self._get_zeroshot_weights(imagenet_classes, imagenet_templates)
+        
+    def _get_zeroshot_weights(self, class_names, templates):
+        with torch.no_grad():
+            zeroshot_weights = []
+            for class_name in tqdm(class_names):
+                texts = [template.format(class_name) for template in templates]  # format with class
+                texts = clip.tokenize(texts).to(device())  # tokenize
+                class_embeddings = self.model.encode_text(texts)  # embed with text encoder
+                class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
+                class_embedding = class_embeddings.mean(dim=0)
+                class_embedding /= class_embedding.norm()
+                zeroshot_weights.append(class_embedding)
+            zeroshot_weights = torch.stack(zeroshot_weights, dim=1).to(device())
+
+        return zeroshot_weights
+
+    def preprocess(self):
+        n_px = self.model.visual.input_resolution
+        return Compose([
+            Resize(n_px, interpolation=PIL.Image.BICUBIC),
+            CenterCrop(n_px),
+            # lambda image: image.convert("RGB"),
+            ToTensor(),
+            Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
+        ])
+
+    def forward_batch(self, images):
+        assert type(images) is torch.Tensor
+
+        images = undo_default_preprocessing(images)
+        images = [self.preprocess()(ToPILImage()(image)) for image in images]
+        images = torch.Tensor(np.stack(images, axis=0)).to(device())
+
+        self.model.eval()
+        
+        image_features = self.model.encode_image(images)
+        image_features /= image_features.norm(dim=-1, keepdim=True)
+        logits = 100. * image_features @ self.zeroshot_weights
+        return self.to_numpy(logits)
