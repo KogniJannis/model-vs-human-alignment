@@ -238,7 +238,7 @@ class DinoPytorchModel(AbstractModel):
 
     def dino_forward(self, images):
         if self.config['arch'] == "vit":
-            intermediate_output = self.model.get_intermediate_layers(images, n)
+            intermediate_output = self.model.get_intermediate_layers(images, self.config['n_last_blocks'])
             output = torch.cat([x[:, 0] for x in intermediate_output], dim=-1)
             if self.config['avgpool']:
                 output = torch.cat((output.unsqueeze(-1), torch.mean(intermediate_output[-1][:, 1:], dim=1).unsqueeze(-1)), dim=-1)
