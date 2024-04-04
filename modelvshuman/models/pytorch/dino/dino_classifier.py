@@ -11,7 +11,7 @@ from .dino_urls import dinov1_linear_urls
 def build_dino_classifier(model_name, config):
     
     n_last_blocks = config['n_last_blocks']
-    avgpool_patchtokens = config['avg_pool']
+    avgpool_patchtokens = config['avgpool']
     model_embed_dim = config['model_embed_dim']
     embed_dim = model_embed_dim * (n_last_blocks + int(avgpool_patchtokens))
     linear_classifier = LinearClassifier(embed_dim, num_labels=1000)
