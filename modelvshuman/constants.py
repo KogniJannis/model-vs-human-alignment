@@ -128,3 +128,7 @@ SWAG_MODELS = ["swag_regnety_16gf_in1k", "swag_regnety_32gf_in1k", "swag_regnety
 # models provided by Serre Lab (Fel et al., 2022) at https://serre-lab.github.io/Harmonization/models/
 HARMONIZED_MODELS = ["convnext_harmonized", "efficient_harmonized", "levit_harmonized", "maxvit_harmonized", "resnet_harmonized", "vgg_harmonized", "vit_harmonized"]
 HARMONIZATION_BASLINE_MODELS = ["tf_convnext_tiny", "tf_efficientnet_b0", "tf_levit128", "tf_maxvit_tiny", "tf_resnet50_v2", "tf_vgg16", "tf_vit_b16"]
+
+DINOV1_VIT_LINEAR_MODELS = ['dino_vits16_linear', 'dino_vits8_linear', 'dino_vitb16_linear',  'dino_vitb8_linear']
+DINOV2_LINEAR_MODELS = ['dinov2_vits14_linear', 'dinov2_vitb14_linear', 'dinov2_vitl14_linear', 'dinov2_vitg14_linear']
+DINOV2_REG_LINEAR_MODELS = ['dinov2_vits14_reg_linear', 'dinov2_vitb14_reg_linear', 'dinov2_vitl14_reg_linear', 'dinov2_vitg14_reg_linear'] 
