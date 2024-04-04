@@ -222,6 +222,7 @@ class DinoPytorchModel(AbstractModel):
         self.classifier = build_dino_classifier(model_name, self.config)
 
         self.model.to(device())
+        self.classifier.to(device())
 
     def to_numpy(self, x):
         if x.is_cuda:
