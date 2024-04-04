@@ -15,7 +15,8 @@ def build_dino_classifier(model_name, config):
     model_embed_dim = config['model_embed_dim']
     embed_dim = model_embed_dim * (n_last_blocks + int(avgpool_patchtokens))
     linear_classifier = LinearClassifier(embed_dim, num_labels=1000)
-
+    linear_classifier = nn.parallel.DistributedDataParallel(linear_classifier)
+    
     if config['version'] == 'v1':
         url = dinov1_linear_urls[model_name]
     else: 
