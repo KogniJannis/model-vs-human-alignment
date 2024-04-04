@@ -161,5 +161,31 @@ def tf_convnext_tiny(model_name, *args):
 
 @register_model("tensorflow")
 def tf_resnet50_v2(model_name, *args):
-    model = tf.keras.applications.resnet_v2.ResNet50V2
+    model = tf.keras.applications.resnet_v2.ResNet50V2()
+    return TensorflowModel(model, model_name, *args)
+
+
+'''
+ViT Baselines for harmonized models
+'''
+@register_model("tensorflow")
+def tf_vit_b16(model_name, *args):
+    model = vit.vit_b16(
+        image_size=224,
+        activation='linear',
+        pretrained=True,
+        include_top=True,
+        pretrained_top=True #TODO check, because changed this
+    )
+    #TODO preprocessing
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tf_levit128(model_name, *args):
+    model = LeViT128(classifier_activation = "softmax", use_distillation = False) #TODO right configuration?
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tf_maxvit_tiny(model_name, *args):
+    model = MaxViT_Tiny(classifier_activation = "softmax") #TODO right configuration?
     return TensorflowModel(model, model_name, *args)
