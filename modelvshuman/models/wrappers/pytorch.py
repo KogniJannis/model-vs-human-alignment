@@ -219,7 +219,7 @@ class DinoPytorchModel(AbstractModel):
         self.config = load_dino_config(model, model_name)
         self.args = args
         
-        self.classifier = build_dino_classifier(model_name, config)
+        self.classifier = build_dino_classifier(model_name, self.config)
 
         self.model.to(device())
 
