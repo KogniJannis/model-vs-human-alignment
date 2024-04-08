@@ -133,3 +133,7 @@ HARMONIZATION_BASLINE_MODELS = ["tf_convnext_tiny", "tf_efficientnet_b0", "tf_le
 VONENETS_CPU = ['vonenet_alexnet_cpu', 'vonenet_resnet50_cpu', 'vonenet_resnet50_at_cpu', 'vonenet_cornets_cpu']
 VONENETS_GPU = ['vonenet_alexnet_gpu', 'vonenet_resnet50_gpu', 'vonenet_resnet50_at_gpu', 'vonenet_cornets_gpu']
 VONENET_BASELINE_MODELS = ['alexnet', 'resnet50', 'cornet_s']
+
+DINOV1_VIT_LINEAR_MODELS = ['dino_vits16_linear', 'dino_vits8_linear', 'dino_vitb16_linear',  'dino_vitb8_linear']
+DINOV2_LINEAR_MODELS = ['dinov2_vits14_linear', 'dinov2_vitb14_linear', 'dinov2_vitl14_linear', 'dinov2_vitg14_linear']
+DINOV2_REG_LINEAR_MODELS = ['dinov2_vits14_reg_linear', 'dinov2_vitb14_reg_linear', 'dinov2_vitl14_reg_linear', 'dinov2_vitg14_reg_linear'] 
