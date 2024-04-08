@@ -667,7 +667,7 @@ also do CorNet wrapper at first, merge with Python wrapper if no changes necessa
 do on cpu for now
 '''
 @register_model("pytorch")
-def cornet_s(model_name, *args):
+def cornet_z(model_name, *args):
     model = cornet.cornet_z(pretrained=True, map_location='cpu')
     return CORnetModel(model, model_name, *args)
 @register_model("pytorch")
