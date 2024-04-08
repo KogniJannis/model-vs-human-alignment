@@ -5,6 +5,14 @@ from ..registry import register_model
 from ..wrappers.pytorch import PytorchModel, PyContrastPytorchModel, ClipPytorchModel, \
     ViTPytorchModel, EfficientNetPytorchModel, SwagPytorchModel, DinoPytorchModel, DinoV2PytorchModel
 
+'''
+Import for Vonenet Models
+Right now the vonenet repo must be installed independently by cloning + pip install .
+'''
+import vonenet
+import cornet
+from ..wrappers.pytorch import VonenetModel, CORnetModel
+
 _PYTORCH_IMAGE_MODELS = "rwightman/pytorch-image-models"
 
 _EFFICIENTNET_MODELS = "rwightman/gen-efficientnet-pytorch"
@@ -615,6 +623,65 @@ def swag_vit_h14_in1k(model_name, *args):
     model = torch.hub.load("facebookresearch/swag", model="vit_h14_in1k")
     return SwagPytorchModel(model, model_name, input_size=518, *args)
 
+'''
+VoneNet Models from Jannis fork of the dicarlolab repo https://github.com/KogniJannis/vonenet
+unclear if the cpu/gpu destinction is necessary if you can move the cpu model to gpu later anyway
+'''
+@register_model("pytorch")
+def vonenet_alexnet_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_at_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_cornets_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+
+@register_model("pytorch")
+def vonenet_alexnet_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_at_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_cornets_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+
+'''
+CORnet models from https://github.com/dicarlolab/CORnet/tree/master
+also do CorNet wrapper at first, merge with Python wrapper if no changes necessary
+do on cpu for now
+'''
+@register_model("pytorch")
+def cornet_s(model_name, *args):
+    model = cornet.cornet_z(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_r(model_name, *args):
+    model = cornet.cornet_r(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_rt(model_name, *args):
+    model = cornet.cornet_rt(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_s(model_name, *args):
+    model = cornet.cornet_s(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
 '''
 DINO models (v1 and v2)
 see:

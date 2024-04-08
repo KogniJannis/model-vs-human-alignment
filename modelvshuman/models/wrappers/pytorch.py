@@ -210,9 +210,65 @@ class SwagPytorchModel(PytorchModel):
         logits = self.model(images)
         return self.to_numpy(logits)    
 
+class VonenetModel(AbstractModel):
+     
+    def __init__(self, model, model_name, *args):
+        self.model = model
+        self.model_name = model_name
+        self.args = args
+        self.model.to(device())      
 
-class DinoPytorchModel(AbstractModel):
+    def to_numpy(self, x):
+        if x.is_cuda:
+            return x.detach().cpu().numpy()
+        else:
+            return x.numpy()
 
+    def softmax(self, logits):
+        assert type(logits) is np.ndarray
+
+        softmax_op = torch.nn.Softmax(dim=1)
+        softmax_output = softmax_op(torch.Tensor(logits))
+        return self.to_numpy(softmax_output)   
+      
+    def forward_batch(self, images):
+        assert type(images) is torch.Tensor
+
+        self.model.eval()
+        logits = self.model(images)
+        return self.to_numpy(logits)
+
+class CORnetModel(AbstractModel):      
+
+    def __init__(self, model, model_name, *args):
+        self.model = model
+        self.model_name = model_name
+        self.args = args
+        self.model.to(device())
+
+    def to_numpy(self, x):
+        if x.is_cuda:
+            return x.detach().cpu().numpy()
+        else:
+            return x.numpy()
+
+    def softmax(self, logits):
+        assert type(logits) is np.ndarray
+
+        softmax_op = torch.nn.Softmax(dim=1)
+        softmax_output = softmax_op(torch.Tensor(logits))
+        return self.to_numpy(softmax_output)
+
+    def forward_batch(self, images):
+        assert type(images) is torch.Tensor
+
+        self.model.eval()
+        logits = self.model(images)  
+        return self.to_numpy(logits)  
+
+      
+  class DinoPytorchModel(AbstractModel):
+    
     def __init__(self, model, model_name, *args):
         self.model = model
         self.model_name = model_name
@@ -283,3 +339,4 @@ class DinoV2PytorchModel(AbstractModel):
         self.model.eval()
         logits = self.model(images)
         return self.to_numpy(logits)
+
