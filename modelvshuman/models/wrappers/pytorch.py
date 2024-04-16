@@ -267,7 +267,7 @@ class CORnetModel(AbstractModel):
         return self.to_numpy(logits)  
 
       
-  class DinoPytorchModel(AbstractModel):
+class DinoPytorchModel(AbstractModel):
     
     def __init__(self, model, model_name, *args):
         self.model = model
