@@ -24,24 +24,24 @@ from ..wrappers.tensorflow import TensorflowEfficientnetModel
 
 
 @register_model("tensorflow")
-def efficientnet_b0(model_name, *args):
+def tfhub_efficientnet_b0(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
-def resnet50(model_name, *args):
-    model = build_model_from_hub(model_name)
-    return TensorflowModel(model, model_name, *args)
-
-
-@register_model("tensorflow")
-def mobilenet_v1(model_name, *args):
+def tfhub_resnet50(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
 
 @register_model("tensorflow")
-def inception_v1(model_name, *args):
+def tfhub_mobilenet_v1(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+
+@register_model("tensorflow")
+def tfhub_inception_v1(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
