@@ -54,6 +54,7 @@ class TensorflowEfficientnetModel(TensorflowModel):
     def forward_batch(self, images):
         device = get_device()
         with device:
+            images = images * 255.0
             images = tf.image.resize(images, [self.effnet_resolution, self.effnet_resolution])
             predictions = self.model(images)
             return predictions.numpy()
