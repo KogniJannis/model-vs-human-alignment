@@ -224,6 +224,17 @@ class VonenetModel(AbstractModel):
         else:
             return x.numpy()
 
+    def preprocess(self):
+        normalize = Normalize(mean=[0.5, 0.5, 0.5],
+                              std=[0.5, 0.5, 0.5])
+
+        return Compose([
+            # Resize(self.input_size, interpolation=PIL.Image.BICUBIC),
+            # CenterCrop(self.input_size),
+            ToTensor(),
+            normalize,
+        ])
+
     def softmax(self, logits):
         assert type(logits) is np.ndarray
 
@@ -235,6 +246,9 @@ class VonenetModel(AbstractModel):
         assert type(images) is torch.Tensor
 
         self.model.eval()
+        images = undo_default_preprocessing(images)
+        images = [self.preprocess()(ToPILImage()(image)) for image in images]
+        images = torch.Tensor(np.stack(images, axis=0)).to(device())
         logits = self.model(images)
         return self.to_numpy(logits)
 
