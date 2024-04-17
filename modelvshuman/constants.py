@@ -137,3 +137,6 @@ VONENET_BASELINE_MODELS = ['alexnet', 'resnet50', 'cornet_s']
 DINOV1_VIT_LINEAR_MODELS = ['dino_vits16_linear', 'dino_vits8_linear', 'dino_vitb16_linear',  'dino_vitb8_linear']
 DINOV2_LINEAR_MODELS = ['dinov2_vits14_linear', 'dinov2_vitb14_linear', 'dinov2_vitl14_linear', 'dinov2_vitg14_linear']
 DINOV2_REG_LINEAR_MODELS = ['dinov2_vits14_reg_linear', 'dinov2_vitb14_reg_linear', 'dinov2_vitl14_reg_linear', 'dinov2_vitg14_reg_linear'] 
+
+BIT_M_MODELS = ["tfhub_bit_m-r50x1", "tfhub_bit_m-r50x3", "tfhub_bit_m-r101x1", "tfhub_bit_m-r101x3", "tfhub_bit_m-r152x4"]
+BIT_S_MODELS = ["tfhub_bit_s-r50x1", "tfhub_bit_s-r50x3", "tfhub_bit_s-r101x1", "tfhub_bit_s-r101x3", "tfhub_bit_s-r152x4"]

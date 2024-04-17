@@ -45,6 +45,60 @@ def tfhub_inception_v1(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
+
+'''
+BIG TRANSFER
+'''
+@register_model("tensorflow")
+def tfhub_bit_s_r50x1(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_s_r50x3(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_m_r50x1(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_m_r50x3(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_s_r101x1(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_s_r101x3(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_m_r101x1(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_m_r101x3(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_s_r152x4(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+@register_model("tensorflow")
+def tfhub_bit_m_r152x4(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
 '''
 HARMONIZED MODELS
 '''
