@@ -158,7 +158,7 @@ def tf_vgg16(model_name, *args):
 @register_model("tensorflow")
 def tf_convnext_tiny(model_name, *args):
     model = tf.keras.applications.convnext.ConvNeXtTiny()
-    preprocessing = keras.applications.convnext.preprocess_input
+    preprocessing = tf.keras.applications.convnext.preprocess_input
     return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
@@ -180,8 +180,8 @@ def tf_vit_b16(model_name, *args):
         include_top=True,
         pretrained_top=True #TODO check, because changed this
     )
-    #TODO preprocessing
-    return TensorflowModel(model, model_name, *args)
+    preprocessing = vit.preprocess_inputs
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
 def tf_levit128(model_name, *args):
