@@ -108,3 +108,23 @@ class HarmonizedTensorflowModel(TensorflowModel):
             #images = self.preprocess_input(images) (see above)
             predictions = self.model(images)
             return predictions.numpy()
+
+class TensorflowPreprocessingModel:
+
+    def __init__(self, model, model_name, preprocessing, *args):
+        self.model = model
+        self.model_name = model_name
+        self.args = args
+        self.preprocessing = preprocessing
+
+    def softmax(self, logits):
+        assert type(logits) is np.ndarray
+        return tf.nn.softmax(logits).numpy()
+
+    def forward_batch(self, images):
+        device = get_device()
+        with device:
+            images = images * 255.0
+            images = self.preprocessing(images)
+            predictions = self.model(images)
+            return predictions.numpy()

@@ -10,7 +10,7 @@ efficientnet, vit_keras, keras_cv_attention_models
 '''
 import tensorflow as tf
 from .harmonized_model_url import harmonized_urls
-from ..wrappers.tensorflow import HarmonizedTensorflowModel
+from ..wrappers.tensorflow import HarmonizedTensorflowModel, TensorflowPreprocessingModel
 import efficientnet.keras
 from vit_keras import vit
 from keras_cv_attention_models.levit import LeViT128
@@ -152,17 +152,20 @@ def tf_efficientnet_b7(model_name, *args):
 @register_model("tensorflow")
 def tf_vgg16(model_name, *args):
     model = tf.keras.applications.vgg16.VGG16()
-    return TensorflowModel(model, model_name, *args)
+    preprocessing = tf.keras.applications.vgg16.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
 def tf_convnext_tiny(model_name, *args):
     model = tf.keras.applications.convnext.ConvNeXtTiny()
-    return TensorflowModel(model, model_name, *args)
+    preprocessing = tf.keras.applications.
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
 def tf_resnet50_v2(model_name, *args):
     model = tf.keras.applications.resnet_v2.ResNet50V2()
-    return TensorflowModel(model, model_name, *args)
+    preprocessing = keras.applications.resnet_v2.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 
 '''
