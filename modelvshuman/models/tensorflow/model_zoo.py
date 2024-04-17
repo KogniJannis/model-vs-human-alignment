@@ -164,7 +164,7 @@ def tf_convnext_tiny(model_name, *args):
 @register_model("tensorflow")
 def tf_resnet50_v2(model_name, *args):
     model = tf.keras.applications.resnet_v2.ResNet50V2()
-    preprocessing = keras.applications.resnet_v2.preprocess_input
+    preprocessing = tf.keras.applications.resnet_v2.preprocess_input
     return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 
@@ -186,9 +186,11 @@ def tf_vit_b16(model_name, *args):
 @register_model("tensorflow")
 def tf_levit128(model_name, *args):
     model = LeViT128(classifier_activation = "softmax", use_distillation = False) #TODO right configuration?
-    return TensorflowModel(model, model_name, *args)
+    preprocessing  = model.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
 def tf_maxvit_tiny(model_name, *args):
     model = MaxViT_Tiny(classifier_activation = "softmax") #TODO right configuration?
-    return TensorflowModel(model, model_name, *args)
+    preprocessing = model.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
