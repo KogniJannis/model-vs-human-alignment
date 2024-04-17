@@ -77,7 +77,7 @@ class HarmonizedTensorflowModel(TensorflowModel):
 
 
     
-    def preprocess_input(images): #disabled 
+    def preprocess_input(self, images): #disabled 
         """
         Preprocesses images for the harmonized models.
         The images are expected to be in RGB format with values in the range [0, 255].
