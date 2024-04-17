@@ -105,9 +105,7 @@ class HarmonizedTensorflowModel(TensorflowModel):
     def forward_batch(self, images):
         device = get_device()
         with device:
-            print(images)
             images = images *255.0 #for future compatibility/merging
-            print(images.shape)
             images = self.preprocess_input(images)
             predictions = self.model(images)
             return predictions.numpy()
