@@ -158,7 +158,7 @@ def tf_vgg16(model_name, *args):
 @register_model("tensorflow")
 def tf_convnext_tiny(model_name, *args):
     model = tf.keras.applications.convnext.ConvNeXtTiny()
-    preprocessing = tf.keras.applications.
+    preprocessing = keras.applications.convnext.preprocess_input
     return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
