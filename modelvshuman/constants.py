@@ -13,6 +13,7 @@ CODE_DIR = pjoin(PROJ_DIR, "modelvshuman")
 DATASET_DIR = pjoin(PROJ_DIR, "datasets")
 FIGURE_DIR = pjoin(PROJ_DIR, "figures")
 RAW_DATA_DIR = pjoin(PROJ_DIR, "raw-data")
+RESULTS_DIR = pjoin(PROJ_DIR, "raw-data") #new dir for results printer
 PERFORMANCES_DIR = pjoin(RAW_DATA_DIR, "performances")
 REPORT_DIR = pjoin(PROJ_DIR, "latex-report/")
 ASSETS_DIR = pjoin(PROJ_DIR, "assets/")
