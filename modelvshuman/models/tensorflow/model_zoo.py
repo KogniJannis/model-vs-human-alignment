@@ -10,7 +10,7 @@ efficientnet, vit_keras, keras_cv_attention_models
 '''
 import tensorflow as tf
 from .harmonized_model_url import harmonized_urls
-from ..wrappers.tensorflow import HarmonizedTensorflowModel
+from ..wrappers.tensorflow import HarmonizedTensorflowModel, TensorflowPreprocessingModel
 import efficientnet.keras
 from vit_keras import vit
 from keras_cv_attention_models.levit import LeViT128
@@ -24,24 +24,24 @@ from ..wrappers.tensorflow import TensorflowEfficientnetModel
 
 
 @register_model("tensorflow")
-def efficientnet_b0(model_name, *args):
+def tfhub_efficientnet_b0(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
 @register_model("tensorflow")
-def resnet50(model_name, *args):
-    model = build_model_from_hub(model_name)
-    return TensorflowModel(model, model_name, *args)
-
-
-@register_model("tensorflow")
-def mobilenet_v1(model_name, *args):
+def tfhub_resnet50(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
 
 @register_model("tensorflow")
-def inception_v1(model_name, *args):
+def tfhub_mobilenet_v1(model_name, *args):
+    model = build_model_from_hub(model_name)
+    return TensorflowModel(model, model_name, *args)
+
+
+@register_model("tensorflow")
+def tfhub_inception_v1(model_name, *args):
     model = build_model_from_hub(model_name)
     return TensorflowModel(model, model_name, *args)
 
@@ -152,14 +152,45 @@ def tf_efficientnet_b7(model_name, *args):
 @register_model("tensorflow")
 def tf_vgg16(model_name, *args):
     model = tf.keras.applications.vgg16.VGG16()
-    return TensorflowModel(model, model_name, *args)
+    preprocessing = tf.keras.applications.vgg16.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
 def tf_convnext_tiny(model_name, *args):
     model = tf.keras.applications.convnext.ConvNeXtTiny()
-    return TensorflowModel(model, model_name, *args)
+    preprocessing = tf.keras.applications.convnext.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
 
 @register_model("tensorflow")
 def tf_resnet50_v2(model_name, *args):
-    model = tf.keras.applications.resnet_v2.ResNet50V2
-    return TensorflowModel(model, model_name, *args)
+    model = tf.keras.applications.resnet_v2.ResNet50V2()
+    preprocessing = tf.keras.applications.resnet_v2.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
+
+
+'''
+ViT Baselines for harmonized models
+'''
+@register_model("tensorflow")
+def tf_vit_b16(model_name, *args):
+    model = vit.vit_b16(
+        image_size=224,
+        activation='linear',
+        pretrained=True,
+        include_top=True,
+        pretrained_top=True #TODO check, because changed this
+    )
+    preprocessing = vit.preprocess_inputs
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
+
+@register_model("tensorflow")
+def tf_levit128(model_name, *args):
+    model = LeViT128(classifier_activation = "softmax", use_distillation = False) #TODO right configuration?
+    preprocessing  = model.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)
+
+@register_model("tensorflow")
+def tf_maxvit_tiny(model_name, *args):
+    model = MaxViT_Tiny(classifier_activation = "softmax") #TODO right configuration?
+    preprocessing = model.preprocess_input
+    return TensorflowPreprocessingModel(model, model_name, preprocessing, *args)

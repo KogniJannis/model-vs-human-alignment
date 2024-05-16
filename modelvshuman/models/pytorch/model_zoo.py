@@ -3,7 +3,15 @@ import torch
 
 from ..registry import register_model
 from ..wrappers.pytorch import PytorchModel, PyContrastPytorchModel, ClipPytorchModel, \
-    ViTPytorchModel, EfficientNetPytorchModel, SwagPytorchModel
+    ViTPytorchModel, EfficientNetPytorchModel, SwagPytorchModel, DinoPytorchModel, DinoV2PytorchModel
+
+'''
+Import for Vonenet Models
+Right now the vonenet repo must be installed independently by cloning + pip install .
+'''
+import vonenet
+import cornet
+from ..wrappers.pytorch import VonenetModel, CORnetModel
 
 _PYTORCH_IMAGE_MODELS = "rwightman/pytorch-image-models"
 
@@ -614,3 +622,129 @@ def swag_vit_l16_in1k(model_name, *args):
 def swag_vit_h14_in1k(model_name, *args):
     model = torch.hub.load("facebookresearch/swag", model="vit_h14_in1k")
     return SwagPytorchModel(model, model_name, input_size=518, *args)
+
+'''
+VoneNet Models from Jannis fork of the dicarlolab repo https://github.com/KogniJannis/vonenet
+unclear if the cpu/gpu destinction is necessary if you can move the cpu model to gpu later anyway
+'''
+@register_model("pytorch")
+def vonenet_alexnet_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_at_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_cornets_cpu(model_name, *args):
+    model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cpu')
+    return VonenetModel(model, model_name, *args)
+
+@register_model("pytorch")
+def vonenet_alexnet_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='alexnet', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_resnet50_at_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='resnet50_at', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+@register_model("pytorch")
+def vonenet_cornets_gpu(model_name, *args):
+    model = vonenet.get_model(model_arch='cornets', pretrained=True, map_location='cuda')
+    return VonenetModel(model, model_name, *args)
+
+'''
+CORnet models from https://github.com/dicarlolab/CORnet/tree/master
+also do CorNet wrapper at first, merge with Python wrapper if no changes necessary
+do on cpu for now
+'''
+@register_model("pytorch")
+def cornet_z(model_name, *args):
+    model = cornet.cornet_z(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_r(model_name, *args):
+    model = cornet.cornet_r(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_rt(model_name, *args):
+    model = cornet.cornet_rt(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+@register_model("pytorch")
+def cornet_s(model_name, *args):
+    model = cornet.cornet_s(pretrained=True, map_location='cpu')
+    return CORnetModel(model, model_name, *args)
+'''
+DINO models (v1 and v2)
+see:
+https://github.com/facebookresearch/dino
+https://github.com/facebookresearch/dinov2
+'''
+@register_model("pytorch")
+def dino_vits16_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dino:main', 'dino_vits16')
+    return DinoPytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dino_vits8_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dino:main', 'dino_vits8')
+    return DinoPytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dino_vitb16_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
+    return DinoPytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dino_vitb8_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dino:main', 'dino_vitb8')
+    return DinoPytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dino_resnet50_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dino:main', 'dino_resnet50')
+    return DinoPytorchModel(model, model_name, *args)
+
+'''
+DINO V2 with linear classifier
+'''
+
+@register_model("pytorch")
+def dinov2_vits14_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vits14_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dinov2_vitb14_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dinov2_vitl14_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitl14_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dinov2_vitg14_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitg14_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
+
+
+# DINOv2 with registers
+@register_model("pytorch")
+def dinov2_vits14_reg_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vits14_reg_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dinov2_vitb14_reg_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14_reg_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dinov2_vitl14_reg_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitl14_reg_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
+@register_model("pytorch")
+def dinov2_vitg14_reg_linear(model_name, *args):
+    model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitg14_reg_lc')
+    return DinoV2PytorchModel(model, model_name, *args)
